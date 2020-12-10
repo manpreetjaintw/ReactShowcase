@@ -1,34 +1,29 @@
 import * as actions from '../actions/actionTypes';
 
 let initialState = {
-  user: [{ name: 'abc'}],
-  userData: []
+  user: [],
+  form_data:[]
 };
 
 let userData = [];
-let   currentUser;
 
 export default function UserReducer(state = initialState, action) {
-    console.log("kkkkk", state)
   switch (action.type) {
     case actions.SAVE_USER:
       userData = {
         name: action.payload,
+        data: []
       };
       return {
         ...state,
         user: state.user.concat(userData),
       };
-      case actions.ADD_DATA:
-      console.log('satte user' + JSON.stringify(state.user));
-      const current = state.user.find((users) => users.name === currentUser);
-      current.data = action.payload;
-      console.log(JSON.stringify(current) + 'fecth  ' + current.data);
-      return {
-        userData: state.userData.concat(current),
-      };
-
-  
+    case actions.ADD_DATA:
+      console.log("user data",userData,"payload",action.payload)
+      userData.data=userData.data.concat(action.payload)  
+    return {...state, 
+        
+        form_data: state.form_data.concat(userData)};
     default:
       return state;
   }

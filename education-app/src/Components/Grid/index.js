@@ -1,4 +1,6 @@
 import React from 'react';
+import {useSelector, useDispatch} from 'react-redux';
+
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -28,6 +30,7 @@ export default function NestedGrid() {
   const classes = useStyles();
   const [dense, setDense] = React.useState(false);
   const [secondary, setSecondary] = React.useState(false);
+  const formData = useSelector((state)=> console.log("@@@@@@@@@@@@@@@@@@@@@",state.userDataReducer.form_data[0] && state.userDataReducer.form_data[0].data))
 
   return (
     <div className={classes.root}>
@@ -36,8 +39,9 @@ export default function NestedGrid() {
           <Grid item md={3}>
             <Background> 
             <div className="bg-grey">
-              <h4> Showcase</h4>
-              <p> Forward </p>
+              {formData && formData.map((item11) => (
+              <p> {item11.degree} </p>
+              ))}
             </div>
             </Background>
           </Grid>
@@ -76,7 +80,7 @@ export default function NestedGrid() {
           </Background>
           <Background > 
             <div className="bg-grey">
-                <h4> Showcase</h4>
+              <h4> Showcase</h4>
               <p> Random details </p>
             </div>
           </Background>

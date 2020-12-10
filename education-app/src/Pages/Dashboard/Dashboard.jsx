@@ -15,8 +15,6 @@ import {addData} from '../../Redux/actions/saveUserAction';
 import Api from '../../Apis';
 import { Container } from '@material-ui/core';
 
-
-
 import styled from "styled-components";
 
 const Div = styled.div`
@@ -51,7 +49,6 @@ const useStyles = makeStyles((theme) => ({
 
 function Dashboard (props) {
   const classes = useStyles();
-
     const dispatch = useDispatch ();
     const [response, setResponse] = useState([])
     const [isOpen, setIsOpen] = useState(false);
@@ -60,19 +57,21 @@ function Dashboard (props) {
     const [degree, setDegree] = useState('');
     const [startYear, setStartYear] = useState('');
     const [endYear, setEndYear] = useState('');
-    const [options, setOptions]= useState([{}])
-    // const table = Array.isArray(response) && response.map(name => setOptions(name.name));
+    const [options, setOptions]= useState([])
 
     const userData = useSelector (state => {
         return state.userDataReducer.user;
       });
 
-
       useEffect(() => {
         Api.get(`http://universities.hipolabs.com/search?name=middle`)
         .then(res => {
            setResponse(res);
-           Array.isArray(response) && response.map(name => setOptions(name.name));
+           let array =[];
+           Array.isArray(res) && res.map((item) =>{
+             array =[...array, item]
+            });
+            setOptions(array)
           })
       }, []);
     
@@ -86,7 +85,6 @@ function Dashboard (props) {
       }
 
       const addEducation = () => {
-        console.log("edu");
         let data = {
             school: nameOfSchool,
             fieldOfStudy: fieldOfStudy,
@@ -94,21 +92,20 @@ function Dashboard (props) {
             startYear: startYear,
             endYear: endYear
         }
-        dispatch(addData(data))
+        dispatch(addData(data));
         setFieldofStudy('');
+        setIsOpen(false);
       }
 
-console.log("cdscdscsdcsd", response)
-
+      console.log("Options", options)
   return (
     <div>
       <Container maxWidth="md">
         <Div> 
         <Typography variant="h4" className={classes.title}>
-        Welcome to {props.location.state.name}'s education page
+        Welcome to {props.location.state}'s education page
           </Typography>
 
-    {/* <Typography>Welcome to {props.location.state.name}'s education page</Typography> */}
      <Buttons variant='contained'
         color="primary"
         name="add"
@@ -123,33 +120,36 @@ console.log("cdscdscsdcsd", response)
     <ModalComponent isOpen={isOpen}>
         <div>
           <div> 
-          <TextAlign> Add new Education Details</TextAlign>
+            <TextAlign> Add new Education Details</TextAlign>
+          </div>
+          <FormControl className={classes.formInput} >
+            <AutoComplete
+              options={options}
+              getOptionLabel={(option) => option.name}
+              renderInput={(params) => <TextField {...params} label="Combo box" variant="outlined" />}
 
-         </div>
-         <FormControl className={classes.formInput} >
-         <AutoComplete />
-         {/* <TextField id="outlined-basic" label="Name of School" variant="outlined" onChange={(e) => setNameofSchool(e)}/> */}
-         
-         <TextField id="outlined-basic" label="Field of Study" variant="outlined" className={classes.inputWidth} onChange={(e) => setFieldofStudy(e)}/>
-         <TextField id="outlined-basic" label="Degree" variant="outlined" className={classes.inputWidth} onChange={(e) => setDegree(e)}/>
-         <TextField id="outlined-basic" label="Start year" variant="outlined" className={classes.inputWidth} onChange={(e) => setStartYear(e)}/>
-         <TextField id="outlined-basic" label="End year" variant="outlined" className={classes.inputWidth} onChange={(e) => setEndYear(e)}/>
-      </FormControl>
+            />
+          
+            <TextField id="outlined-basic" label="Field of Study" variant="outlined" className={classes.inputWidth} onChange={(e) => setFieldofStudy(e.target.value)}/>
+            <TextField id="outlined-basic" label="Degree" variant="outlined" className={classes.inputWidth} onChange={(e) => setDegree(e.target.value)}/>
+            <TextField id="outlined-basic" label="Start year" variant="outlined" className={classes.inputWidth} onChange={(e) => setStartYear(e.target.value)}/>
+            <TextField id="outlined-basic" label="End year" variant="outlined" className={classes.inputWidth} onChange={(e) => setEndYear(e.target.value)}/>
+          </FormControl>
          <div className={classes.btnDiv}> 
-         <Buttons variant='contained'
-            color="primary"
-            name="add"
-            onClick={()=> addEducation()}
-            >
-            Add
-         </Buttons>
-         <Buttons variant='contained'
-            color="primary"
-            name="add"
-            onClick={()=> closeModal()}
-            >
-            Close
-         </Buttons>
+          <Buttons variant='contained'
+              color="primary"
+              name="add"
+              onClick={()=> addEducation()}
+              >
+              Add
+          </Buttons>
+          <Buttons variant='contained'
+              color="primary"
+              name="add"
+              onClick={()=> closeModal()}
+              >
+              Close
+          </Buttons>
          </div>
         </div>
     </ModalComponent>

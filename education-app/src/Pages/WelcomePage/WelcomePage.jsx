@@ -24,7 +24,7 @@ const WelcomePage = (props) => {
   }
 
   const addUser = () => {
-    console.log("MMMMM");
+    console.log("MMMMM", name);
     dispatch (saveUserAction (name));
     props.history.push({
       pathname: '/dashboard',
