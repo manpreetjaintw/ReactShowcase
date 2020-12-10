@@ -19,11 +19,7 @@ export default function UserReducer(state = initialState, action) {
         user: state.user.concat(userData),
       };
     case actions.ADD_DATA:
-      console.log("user data",userData,"payload",action.payload)
-      userData.data=userData.data.concat(action.payload)  
-    return {...state, 
-        
-        form_data: state.form_data.concat(userData)};
+      return {...state, form_data:  action.payload};
     default:
       return state;
   }

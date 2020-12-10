@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -30,7 +30,7 @@ export default function NestedGrid() {
   const classes = useStyles();
   const [dense, setDense] = React.useState(false);
   const [secondary, setSecondary] = React.useState(false);
-  const formData = useSelector((state)=> console.log("@@@@@@@@@@@@@@@@@@@@@",state.userDataReducer.form_data[0] && state.userDataReducer.form_data[0].data))
+  const formData = useSelector((state)=> state.userDataReducer.form_data )
 
   return (
     <div className={classes.root}>
@@ -38,11 +38,12 @@ export default function NestedGrid() {
         <Grid container spacing={1}>
           <Grid item md={3}>
             <Background> 
-            <div className="bg-grey">
-              {formData && formData.map((item11) => (
-              <p> {item11.degree} </p>
-              ))}
-            </div>
+              <div className="bg-grey">
+                <h4> Showcase</h4>
+                {formData && formData.map((item, index) => (
+                    <p key={index}>{item.degree}</p>
+                ))}
+              </div>
             </Background>
           </Grid>
           <Grid item md={9}>
@@ -50,11 +51,10 @@ export default function NestedGrid() {
             <div className="bg-grey">
               <h4> Graduate Computer Science @ Showcase University</h4>
               <div className={classes.demo}>
-          </div>
+            </div>
               <p> August 2019- Present </p>
             </div>
             <List dense={dense}>
-              
               <ListItem>
                 <ListItemText
                   primary="Not all those who wander are lost"

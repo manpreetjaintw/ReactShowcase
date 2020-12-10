@@ -24,7 +24,6 @@ const WelcomePage = (props) => {
   }
 
   const addUser = () => {
-    console.log("MMMMM", name);
     dispatch (saveUserAction (name));
     props.history.push({
       pathname: '/dashboard',
@@ -34,19 +33,18 @@ const WelcomePage = (props) => {
 
   return (
     <div>
-      
-<Container maxWidth="sm">
-<Div>
-      <h3>Hi, there! Welcome to your education Showcase</h3>
-      <TextField id="outlined-basic" label="Name" variant="outlined" onChange={(e) => handleChange(e)}/>
-      <Buttons variant='contained'
-        color="primary"
-        name="add"
-        onClick={()=> addUser()}
-        >
-        Add User
-      </Buttons>
-      </Div>
+      <Container maxWidth="sm">
+        <Div>
+          <h3>Hi, there! Welcome to your education Showcase</h3>
+          <TextField id="outlined-basic" label="Name" variant="outlined" onChange={(e) => handleChange(e)}/>
+          <Buttons variant='contained'
+            color="primary"
+            name="add"
+            onClick={()=> addUser()}
+            >
+            Add User
+          </Buttons>
+        </Div>
       </Container>
     </div>
   );

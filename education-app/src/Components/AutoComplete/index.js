@@ -7,7 +7,7 @@ export default function ComboBox(props) {
     <Autocomplete
       id="combo-box-demo"
       options={props.options}
-      getOptionLabel={(option) => option.title}
+      getOptionLabel={(option) => option.name}
       style={{ width: '80%', margin: '0 auto 15px', }}
       renderInput={(params) => <TextField {...params} label="Combo box" variant="outlined" />}
     />
